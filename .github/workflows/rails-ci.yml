@@ -26,4 +26,4 @@ jobs:
           bundle install 
       - name: Run linters
         run: |
-          bundle exec rubocop --parallel
+          bundle exec rubocop --fail-level W --display-only-fail-level-offenses --parallel

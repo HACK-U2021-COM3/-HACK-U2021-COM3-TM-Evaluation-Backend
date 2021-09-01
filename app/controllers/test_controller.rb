@@ -1,5 +1,5 @@
 class TestController < ApplicationController
   def index
-    render :json => {name: "testUser" }
+    render json: { name: 'testUser' }
   end
 end
