@@ -22,6 +22,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
+gem 'httpclient', '2.8.3'
+
+gem 'dotenv-rails', '2.7.6'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
@@ -37,6 +40,8 @@ group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :production do

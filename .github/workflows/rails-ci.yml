@@ -1,4 +1,4 @@
-name: Linter
+name: RailsCI
 on: [push, pull_request]
 
 jobs:
@@ -21,9 +21,15 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
+
       - name: Bundle install
         run: |
-          bundle install 
+          bundle config path vendor/bundle
+          bundle install  
+          
       - name: Run linters
         run: |
           bundle exec rubocop --fail-level W --display-only-fail-level-offenses --parallel
+
+      # - name: run rspec
+      #   run: bundle exec rspec
