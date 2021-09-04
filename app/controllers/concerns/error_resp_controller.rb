@@ -33,7 +33,7 @@ class ErrorRespController < ApplicationController
     end
 
     # 409 Conflict
-    def response_conflict(class_name)
+    def response_conflict
       { status: 409, json: { error: 'Conflict' } } 
     end
 
