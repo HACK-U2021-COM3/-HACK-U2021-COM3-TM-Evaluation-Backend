@@ -3,7 +3,7 @@ class SearchesController < ApplicationController
   def search
 
     begin
-      search_req_params = SearchReqParams.new(params)
+      search_req_params = SearchReqParams.new(params) # rubocop:disable all
     rescue => err
       puts err.message
       resp = ErrorRespController.handle_status_code(err)
