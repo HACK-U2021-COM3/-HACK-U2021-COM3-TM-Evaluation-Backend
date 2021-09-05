@@ -4,13 +4,15 @@ class ErrorRespController < ApplicationController
 
     #errorのステータスコードを生成して返す関数の作成
     def handle_status_code(err)
-
       case err
-      when SearchValidatorError
+      when SearchValidatorError, MeasureValidatorError
+        puts {"#{err.class}: #{err.message}"}
         response_bad_request
-      when PlaceApiError
+      when PlaceApiError, DirectionApiError
+        puts {"#{err.class}: #{err.message}"}
         response_internal_server_error
       else
+        puts {"#{err.class}: #{err.message}"}
         response_internal_server_error
       end
 

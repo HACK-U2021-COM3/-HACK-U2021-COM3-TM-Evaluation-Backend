@@ -3,7 +3,7 @@ class SearchService
 
   def initialize(req_params)
 
-    #google map api の パラメータを設定
+    #GoogleMapApiのパラメータを設定
     @query = {
       input: req_params.query_place,
       key: ENV["GOOGLE_API_KEY"],
@@ -20,7 +20,7 @@ class SearchService
     response_base = request('https://maps.googleapis.com/maps/api/place/textsearch/json', @query)
     
     #statusが異常系の場合 ex)ZERO_RESULTS ,INVALID_REQUEST
-    raise PlaceApiError.new(response_base["status"]) unless response_base["status"] == "OK"
+    raise PlaceApiError.new("call_place_api error: #{response_base["status"]}") unless response_base["status"] == "OK"
 
     #複数の場所候補を取得
     got_places = []
