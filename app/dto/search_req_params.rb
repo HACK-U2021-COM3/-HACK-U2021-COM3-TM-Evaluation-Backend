@@ -7,7 +7,7 @@ class SearchReqParams < RequestDto
 
     @query_place = params[:query_place]
     #validateして異常があった場合
-    raise SearchValidatorError.new unless valid?
+    raise SearchValidatorError.new("initialize error") unless valid?
   end
   # rubocop:enable all
 
