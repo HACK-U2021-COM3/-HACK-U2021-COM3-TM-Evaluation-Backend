@@ -18,9 +18,7 @@ class MeasureReqParams < RequestDto
     waypoints =  @waypoints
     waypoints.each do |waypoint|
       if waypoint[:point].blank? || waypoint[:order].blank?
-        puts waypoint
-        errors.add(:waypoints, "between")
-        return
+        errors.add(:waypoints, "waypoints contents are empty!")
       end
     end
   end
