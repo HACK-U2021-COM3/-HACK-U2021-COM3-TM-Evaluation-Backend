@@ -1,11 +1,11 @@
 class SearchService
   include RequestApi 
 
-  def initialize(search_req_params)
+  def initialize(req_params)
 
     #google map api の パラメータを設定
     @query = {
-      input: search_req_params.query_place,
+      input: req_params.query_place,
       key: ENV["GOOGLE_API_KEY"],
       inputtype: "textquery",
       fields:  "formatted_address,name,geometry",
