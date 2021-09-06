@@ -8,14 +8,14 @@ class ApplicationController < ActionController::API
       req_params = AuthReqParams.new({ "token": token })
     rescue => err
       resp_params = ErrorRespController.handle_status_code(err)
-      render resp_params
+      render resp_params and return
     end
 
     begin
       user_id = AuthService.new(req_params).operate
     rescue => err
       resp_params = ErrorRespController.handle_status_code(err)
-      render resp_params
+      render resp_params and return
     end
     @user_id = user_id
 
