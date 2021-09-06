@@ -26,6 +26,8 @@ gem 'httpclient', '2.8.3'
 
 gem 'dotenv-rails', '2.7.6'
 
+gem 'google-id-token', '1.4.2'
+
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '~> 1.4'
@@ -37,6 +39,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "rails-erd"
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -45,7 +48,7 @@ group :development do
 end
 
 group :production do
-  gem 'pg', '1.1.4'
+  # gem 'pg', '1.1.4'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

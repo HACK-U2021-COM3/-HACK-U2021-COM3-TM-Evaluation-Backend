@@ -9,16 +9,15 @@ class SearchService
       key: ENV["GOOGLE_API_KEY"],
       inputtype: "textquery",
       fields:  "formatted_address,name,geometry",
-      language: "ja",    
+      language: "ja",
     }
-    puts @query
 
   end
 
   def call_place_api
 
     response_base = request('https://maps.googleapis.com/maps/api/place/textsearch/json', @query)
-    
+
     #statusが異常系の場合 ex)ZERO_RESULTS ,INVALID_REQUEST
     raise PlaceApiError.new("call_place_api error: #{response_base["status"]}") unless response_base["status"] == "OK"
 
@@ -34,9 +33,9 @@ class SearchService
       got_place["name"] = result["name"]
       got_places.append(got_place)
     }
-    
+
     got_places
   end
-    
+
     
 end

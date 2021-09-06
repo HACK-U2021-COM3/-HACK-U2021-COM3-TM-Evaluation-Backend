@@ -4,18 +4,17 @@ class ErrorRespController < ApplicationController
 
     #errorのステータスコードを生成して返す関数の作成
     def handle_status_code(err)
+      puts "{ #{err.class}: #{err.message} }"
       case err
       when SearchValidatorError, MeasureValidatorError
-        puts {"#{err.class}: #{err.message}"}
         response_bad_request
       when PlaceApiError, DirectionApiError
-        puts {"#{err.class}: #{err.message}"}
         response_internal_server_error
+      when AuthValidatorError, AuthServiceError
+        response_unauthorized
       else
-        puts {"#{err.class}: #{err.message}"}
-        response_internal_server_error
+        response_not_found
       end
-
     end
 
     ###エラーコードの定義
@@ -43,6 +42,7 @@ class ErrorRespController < ApplicationController
     def response_internal_server_error
        { status: 500, json: { error: 'Internal Server Error' } }
     end
+
   end
 end
 
