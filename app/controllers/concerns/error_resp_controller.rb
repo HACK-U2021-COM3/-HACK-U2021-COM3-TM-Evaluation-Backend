@@ -6,7 +6,7 @@ class ErrorRespController < ApplicationController
     def handle_status_code(err)
       puts "{ #{err.class}: #{err.message} }"
       case err
-      when SearchValidatorError, MeasureValidatorError
+      when SearchValidatorError, MeasureValidatorError, PastPlansValidatorError
         response_bad_request
       when PlaceApiError, DirectionApiError
         response_internal_server_error
