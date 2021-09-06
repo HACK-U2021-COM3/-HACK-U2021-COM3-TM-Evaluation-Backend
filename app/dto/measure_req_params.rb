@@ -9,7 +9,6 @@ class MeasureReqParams < RequestDto
     @waypoints = params[:waypoints]
 
     #validateして異常があった場合
-    puts errors.full_messages unless valid?
     raise MeasureValidatorError.new("initialize error") unless valid?
   end
   # rubocop:enable all
