@@ -16,14 +16,16 @@ class PastPlansService
 
   # update用set
   def set_for_update
-    @past_plans = {
-      user_id: @req_params.user_id,
-      title: @req_params.title,
-      sum_time: @req_params.sum_time
-    }
 
-    @past_plan_id = @req_params.plans_id
-    @past_plan_details = @req_params.details
+    @past_plans = {
+      user_id: @req_params[:plans_req_params].user_id,
+      title: @req_params[:plans_req_params].title,
+      sum_time: @req_params[:plans_req_params].sum_time
+    }
+    @past_plan_details = @req_params[:plans_req_params].details
+
+    @user_id = @req_params[:id_req_params].user_id
+    @past_plan_id = @req_params[:id_req_params].plans_id
   end
 
   # index用set
@@ -64,15 +66,39 @@ class PastPlansService
 
 
   def show_past_plan
-    fetched_user_id = select_user_id_from_past_plan.attributes["user_id"]
+    fetched_user_id = select_past_plan_by_past_plan_id.attributes["user_id"]
     raise PastPlansServiceError.new("show_past_plan error") unless @user_id == fetched_user_id
 
-    detail_contents_relation = select_past_plan_detail
+    detail_contents_relation = select_past_plan_detail_by_past_plan_id
     raise PastPlansServiceError.new("show_past_plan error") if detail_contents_relation.empty?
 
     convert_detail_to_hash(detail_contents_relation)
   end
 
+
+  def update_past_plan_and_detail
+    begin
+      ActiveRecord::Base.transaction do
+        # 予定書き込み + result_id取得
+        update_past_plan
+        delete_past_plan_detail
+        insert_past_plan_detail(@past_plan_id)
+      end
+
+    rescue
+      raise PastPlansServiceError.new("update_past_plan_and_detail error")
+    end
+  end
+
+  def destroy_past_plan
+    begin
+      ActiveRecord::Base.transaction do
+        destroy_past_plan_and_details_plan
+      end
+    rescue
+      raise PastPlansServiceError.new("destroy_past_plan error")
+    end
+  end
 
   def insert_past_plan
     PastPlan.create(@past_plans).id
@@ -122,11 +148,11 @@ class PastPlansService
     past_plans_results
   end
 
-  def select_user_id_from_past_plan
+  def select_past_plan_by_past_plan_id
     PastPlan.find_by(id: @past_plan_id)
   end
 
-  def select_past_plan_detail
+  def select_past_plan_detail_by_past_plan_id
     PastPlanDetail.where(past_plan_id: @past_plan_id)
   end
 
@@ -151,5 +177,21 @@ class PastPlansService
     end
 
     detail_contents_results
+  end
+
+  def update_past_plan
+    past_plan = PastPlan.find_by(id: @past_plan_id)
+    past_plan.title = @past_plans[:title]
+    past_plan.sum_time = @past_plans[:sum_time]
+    past_plan.save!
+  end
+
+  def delete_past_plan_detail
+    PastPlanDetail.where(past_plan_id: @past_plan_id).destroy_all
+
+  end
+
+  def destroy_past_plan_and_details_plan
+    PastPlan.where(user_id: @user_id).destroy(@past_plan_id)
   end
 end

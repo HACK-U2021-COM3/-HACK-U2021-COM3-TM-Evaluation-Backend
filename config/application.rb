@@ -38,5 +38,7 @@ module TMEvaluationBackend
     config.api_only = true
 
     # config.logger = Logger.new(STDOUT)
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
   end
 end
