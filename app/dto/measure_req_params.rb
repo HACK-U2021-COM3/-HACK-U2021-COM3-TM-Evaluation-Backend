@@ -32,7 +32,7 @@ class MeasureReqParams < RequestDto
   end
 
   def waypoints_contents_validation
-    waypoints =  @waypoints
+    waypoints = @waypoints
     waypoints.each do |waypoint|
       if waypoint[:point].blank? || waypoint[:point_stay_time].blank? || waypoint[:order].blank?
         errors.add(:waypoints, "waypoints contents are empty!")
