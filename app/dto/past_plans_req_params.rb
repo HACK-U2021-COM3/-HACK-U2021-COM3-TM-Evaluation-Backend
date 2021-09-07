@@ -1,4 +1,4 @@
-class PastPlansReqParams < RequestDto
+class PastPlanReqParams < RequestDto
   attr_accessor :title, :sum_time, :details, :user_id
   validates :title, :sum_time, :details, presence: true
   validate :details_contents_validation
