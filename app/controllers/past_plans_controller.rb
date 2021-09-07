@@ -5,7 +5,9 @@ class PastPlansController < ApplicationController
     req_params = PastPlanIdReqParams.new(user_id: @user_id)
 
     begin
-      past_plans_result = PastPlansService.new(req_params).index_past_plans
+      past_plans_service_obj = PastPlansService.new(req_params)
+      past_plans_service_obj.set_for_index
+      past_plans_result = past_plans_service_obj.index_past_plans
     rescue => err
       resp_params = ErrorRespController.handle_status_code(err)
       render resp_params
@@ -15,7 +17,6 @@ class PastPlansController < ApplicationController
     resp_params = SuccessRespController.handle_status_code(past_plans_result)
     render resp_params
     return
-
   end
 
   def show
@@ -32,7 +33,9 @@ class PastPlansController < ApplicationController
 
     begin
       req_params.user_id = @user_id
-      PastPlansService.new(req_params).create_past_plan
+      past_plans_service_obj = PastPlansService.new(req_params)
+      past_plans_service_obj.set_for_create
+      past_plans_service_obj.create_past_plan
     rescue => err
       resp_params = ErrorRespController.handle_status_code(err)
       render resp_params
