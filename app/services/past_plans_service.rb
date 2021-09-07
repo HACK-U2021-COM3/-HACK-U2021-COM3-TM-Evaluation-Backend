@@ -75,7 +75,7 @@ class PastPlansService
   def insert_past_plan_detail(past_plan_id)
     detail_contents_list = []
 
-    detail_contents =  @past_plan_details
+    detail_contents = @past_plan_details
     detail_contents.each do |detail_content|
       content_dict = {}
 

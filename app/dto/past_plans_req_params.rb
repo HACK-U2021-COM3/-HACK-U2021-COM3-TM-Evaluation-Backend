@@ -15,7 +15,7 @@ class PastPlansReqParams < RequestDto
   # rubocop:enable all
 
   def detail_contents_validation
-    detail_contents =  @details
+    detail_contents = @details
     detail_contents.each do |detail_content|
       if detail_content[:stay_time].blank? || detail_content[:order_number].blank? ||
         detail_content[:place_location][:lat].blank? || detail_content[:place_location][:lng].blank?
