@@ -42,16 +42,6 @@ class PastPlansService
     @user_id = @req_params.user_id
     @past_plan_id = @req_params.plans_id
   end
-
-
-  def index_past_plans
-    past_plans_relation = select_past_plans_by_user_id
-    raise PastPlansServiceError.new("index_past_plans error") if past_plans_relation.empty?
-
-    past_plans_result = convert_past_plans_from_relation_to_hash(past_plans_relation)
-    past_plans_result
-  end
-
   
   def create_past_plan
     begin
@@ -65,11 +55,27 @@ class PastPlansService
     end
   end
 
+  def index_past_plans
+    past_plans_relation = select_past_plans_by_user_id
+    raise PastPlansServiceError.new("index_past_plans error") if past_plans_relation.empty?
+
+    convert_past_plans_to_hash(past_plans_relation)
+  end
+
+
+  def show_past_plan
+    fetched_user_id = select_user_id_from_past_plan.attributes["user_id"]
+    raise PastPlansServiceError.new("show_past_plan error") unless @user_id == fetched_user_id
+
+    detail_contents_relation = select_past_plan_detail
+    raise PastPlansServiceError.new("show_past_plan error") if detail_contents_relation.empty?
+
+    convert_detail_to_hash(detail_contents_relation)
+  end
 
 
   def insert_past_plan
-    past_plan_id = PastPlan.create(@past_plans).id
-    past_plan_id
+    PastPlan.create(@past_plans).id
   end
 
   def insert_past_plan_detail(past_plan_id)
@@ -94,11 +100,10 @@ class PastPlansService
 
 
   def select_past_plans_by_user_id
-    result = PastPlan.where(user_id: @user_id)
-    result
+    PastPlan.where(user_id: @user_id)
   end
 
-  def convert_past_plans_from_relation_to_hash(past_plans_relation)
+  def convert_past_plans_to_hash(past_plans_relation)
     past_plans_results = []
     past_plans_relation.each do | past_plan_relation |
 
@@ -117,4 +122,34 @@ class PastPlansService
     past_plans_results
   end
 
+  def select_user_id_from_past_plan
+    PastPlan.find_by(id: @past_plan_id)
+  end
+
+  def select_past_plan_detail
+    PastPlanDetail.where(past_plan_id: @past_plan_id)
+  end
+
+  def convert_detail_to_hash(detail_contents_relation)
+    detail_contents_results = []
+
+    detail_contents_relation.each do | content_relation |
+
+      #フロントに送るデータ構造の生成
+      hash_result = {}
+      content_hash = content_relation.attributes
+
+      location_dict = {}
+      location_dict[:lat] = content_hash["latitude"]
+      location_dict[:lng] = content_hash["longitude"]
+
+      hash_result[:place_location] = location_dict
+      hash_result[:stay_time] = content_hash["stay_time"]
+      hash_result[:order_number] = content_hash["order_number"]
+
+      detail_contents_results.append(hash_result)
+    end
+
+    detail_contents_results
+  end
 end
