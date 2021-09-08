@@ -14,8 +14,8 @@ class MeasureService
   def initialize_waypoints_exist
     waypoints_hash = parse_for_waypoints(@req_params.waypoints)
     @query = {
-      origin: @req_params.from,
-      destination: @req_params.to,
+      origin: @req_params.from["from_name"],
+      destination: @req_params.to["to_name"],
       waypoints: waypoints_hash[:waypoints_str],
       key: ENV["GOOGLE_API_KEY"],
       mode: "walking",
@@ -31,9 +31,10 @@ class MeasureService
   end
 
   def initialize_waypoints_not_exist
+    puts @req_params.from["from_name"]
     @query = {
-      origin: @req_params.from,
-      destination: @req_params.to,
+      origin: @req_params.from["from_name"],
+      destination: @req_params.to["to_name"],
       key: ENV["GOOGLE_API_KEY"],
       mode: "walking",
       language: "ja"
@@ -61,7 +62,6 @@ class MeasureService
   end
 
   def call_direction_api
-
     response_base = request('https://maps.googleapis.com/maps/api/directions/json', @query)
 
     #statusが異常系の場合 ex)ZERO_RESULTS ,INVALID_REQUEST
