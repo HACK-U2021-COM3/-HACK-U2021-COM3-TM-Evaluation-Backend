@@ -2,21 +2,47 @@ class MeasureService
   include RequestApi
 
   def initialize(req_params)
-    #google map api の パラメータを設定
-    waypoints_hash = parse_for_waypoints(req_params.waypoints)
+    @req_params = req_params
+    # 存在チェック　有ればwaypoints含む
+    if req_params.waypoints.present?
+      initialize_waypoints_exist
+    else
+      initialize_waypoints_not_exist
+    end
+  end
+
+  def initialize_waypoints_exist
+    waypoints_hash = parse_for_waypoints(@req_params.waypoints)
     @query = {
-      origin: req_params.from,
-      destination: req_params.to,
+      origin: @req_params.from,
+      destination: @req_params.to,
       waypoints: waypoints_hash[:waypoints_str],
       key: ENV["GOOGLE_API_KEY"],
       mode: "walking",
       language: "ja"
     }
+
     #フロントに描画させるための値を保持
     @stay_time_list = [
-      req_params.from[:from_stay_time],
+      @req_params.from[:from_stay_time],
       waypoints_hash[:stay_times],
-      req_params.to[:to_stay_time],
+      @req_params.to[:to_stay_time],
+    ].flatten
+  end
+
+  def initialize_waypoints_not_exist
+    @query = {
+      origin: @req_params.from,
+      destination: @req_params.to,
+      key: ENV["GOOGLE_API_KEY"],
+      mode: "walking",
+      language: "ja"
+    }
+
+    #フロントに描画させるための値を保持
+    @stay_time_list = [
+      @req_params.from[:from_stay_time],
+      @req_params.to[:to_stay_time],
     ].flatten
   end
 

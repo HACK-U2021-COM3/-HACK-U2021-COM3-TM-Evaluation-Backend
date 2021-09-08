@@ -1,9 +1,13 @@
 class MeasureReqParams < RequestDto
   attr_accessor :from, :to, :waypoints
-  validates :from, :to, :waypoints, presence: true
+  validates :from, :to, presence: true
   validate  :from_contents_validation
   validate  :to_contents_validation
-  validate  :waypoints_contents_validation
+
+  # validate 条件指定　値が有ればバリデーションを
+  validates :waypoints, presence: true, if: Proc.new{ |params_| params_.waypoints.present?}
+  validate :waypoints_contents_validation, if: Proc.new{ |params_| params_.waypoints.present?}
+
   # rubocop:disable all
   def initialize(params={})
     @from = params[:from]
@@ -39,5 +43,4 @@ class MeasureReqParams < RequestDto
       end
     end
   end
-
 end
