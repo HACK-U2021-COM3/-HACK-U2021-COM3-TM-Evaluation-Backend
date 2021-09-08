@@ -36,7 +36,6 @@ class MeasureReqParams < RequestDto
   end
 
   def waypoints_contents_validation
-    puts "###################################"
     waypoints = @waypoints
     waypoints.each do |waypoint|
       if waypoint[:point].blank? || waypoint[:point_stay_time].blank? || waypoint[:order].blank?
