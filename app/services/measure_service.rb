@@ -7,7 +7,7 @@ class MeasureService
     if req_params.waypoints.present?
       initialize_waypoints_exist
     else
-      initialize_waypoints_not_exist
+      initialize_waypoints_if_not_exist
     end
   end
 
@@ -30,7 +30,7 @@ class MeasureService
     ].flatten
   end
 
-  def initialize_waypoints_not_exist
+  def initialize_waypoints_if_not_exist
     @query = {
       origin: @req_params.from["from_name"],
       destination: @req_params.to["to_name"],
