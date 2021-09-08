@@ -31,7 +31,6 @@ class MeasureService
   end
 
   def initialize_waypoints_not_exist
-    puts @req_params.from["from_name"]
     @query = {
       origin: @req_params.from["from_name"],
       destination: @req_params.to["to_name"],
