@@ -50,6 +50,7 @@ class PastPlansController < ApplicationController
 
   def show
     req_params = PastPlanIdReqParams.new(user_id: @user_id, plans_id: params[:id].to_i)
+
     begin
       past_plans_service_obj = PastPlansService.new(req_params)
       past_plans_service_obj.set_for_show
@@ -89,10 +90,6 @@ class PastPlansController < ApplicationController
     resp_params = SuccessRespController.handle_status_code(SuccessRespController::SUCCESS_CODE_NO_CONTENT)
     render resp_params
     return
-
-
-
-
   end
 
 
@@ -102,6 +99,7 @@ class PastPlansController < ApplicationController
 
   def destroy
     req_params = PastPlanIdReqParams.new(user_id: @user_id, plans_id: params[:id].to_i)
+
     begin
       past_plans_service_obj = PastPlansService.new(req_params)
       past_plans_service_obj.set_for_destroy
@@ -115,6 +113,5 @@ class PastPlansController < ApplicationController
     resp_params = SuccessRespController.handle_status_code(SuccessRespController::SUCCESS_CODE_NO_CONTENT)
     render resp_params
     return
-
   end
 end
