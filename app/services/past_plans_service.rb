@@ -5,11 +5,11 @@ class PastPlansService
 
   # create用set
   def set_for_create
-   @past_plans = {
-        user_id: @req_params.user_id,
-        title: @req_params.title,
-        sum_time: @req_params.sum_time
-      }
+     @past_plans = {
+          user_id: @req_params.user_id,
+          title: @req_params.title,
+          sum_time: @req_params.sum_time
+     }
     @past_plan_details = @req_params.details
 
   end
@@ -79,7 +79,6 @@ class PastPlansService
   def update_past_plan_and_detail
     begin
       ActiveRecord::Base.transaction do
-        # 予定書き込み + result_id取得
         update_past_plan
         delete_past_plan_detail
         insert_past_plan_detail(@past_plan_id)
@@ -132,7 +131,6 @@ class PastPlansService
   def convert_past_plans_to_hash(past_plans_relation)
     past_plans_results = []
     past_plans_relation.each do | past_plan_relation |
-
       #フロントに送るデータ構造の生成
       hash_result = {}
       past_plan_hash = past_plan_relation.attributes
@@ -160,7 +158,6 @@ class PastPlansService
     detail_contents_results = []
 
     detail_contents_relation.each do | content_relation |
-
       #フロントに送るデータ構造の生成
       hash_result = {}
       content_hash = content_relation.attributes
