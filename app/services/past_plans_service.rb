@@ -5,11 +5,11 @@ class PastPlansService
 
   # create用set
   def set_for_create
-   @past_plans = {
-        user_id: @req_params.user_id,
-        title: @req_params.title,
-        sum_time: @req_params.sum_time
-      }
+     @past_plans = {
+          user_id: @req_params.user_id,
+          title: @req_params.title,
+          sum_time: @req_params.sum_time
+     }
     @past_plan_details = @req_params.details
 
   end
