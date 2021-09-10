@@ -33,7 +33,6 @@ jobs:
           bundle exec rubocop --fail-level W --display-only-fail-level-offenses --parallel
  
       - name: Create dot env file
-      - shell: bash
         run: |
           touch .env
           echo "FOO=${{ secrets.FOO }}" >> .env  
