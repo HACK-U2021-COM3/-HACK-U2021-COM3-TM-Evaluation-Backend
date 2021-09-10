@@ -35,7 +35,8 @@ jobs:
       - name: Create dot env file
         run: |
           touch .env
-          echo "FOO=${{ secrets.FOO }}" >> .env  
-
+          echo "GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}" >> .env  
+          echo "AUD_ID=${{ secrets.AUD_ID }}" >> .env  
+          echo "FRONT_URL=${{ secrets.FRONT_URL }}" >> .env  
       - name: run rspec
         run: bundle exec rspec
