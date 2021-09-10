@@ -16,7 +16,7 @@ class MeasuresController < ApplicationController
       return
     end
 
-    resp_params =  SuccessRespController.handle_status_code(got_measures)
+    resp_params = SuccessRespController.handle_status_code(got_measures)
     render resp_params
     return
 

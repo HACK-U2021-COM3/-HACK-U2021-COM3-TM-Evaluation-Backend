@@ -2,9 +2,10 @@ name: RailsCI
 on: [push, pull_request]
 
 jobs:
-  linters:
-    name: Linters
+  linters_and_tests:
+    name: LintersAndTests
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -25,11 +26,17 @@ jobs:
       - name: Bundle install
         run: |
           bundle config path vendor/bundle
-          bundle install  
+          bundle install
           
       - name: Run linters
         run: |
           bundle exec rubocop --fail-level W --display-only-fail-level-offenses --parallel
-
-      # - name: run rspec
-      #   run: bundle exec rspec
+ 
+      - name: Create dot env file
+        run: |
+          touch .env
+          echo "GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}" >> .env  
+          echo "AUD_ID=${{ secrets.AUD_ID }}" >> .env  
+          echo "FRONT_URL=${{ secrets.FRONT_URL }}" >> .env  
+      - name: run rspec
+        run: bundle exec rspec
