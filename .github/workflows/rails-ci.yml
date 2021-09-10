@@ -32,4 +32,4 @@ jobs:
           bundle exec rubocop --fail-level W --display-only-fail-level-offenses --parallel
 
       - name: run rspec
-         run: bundle exec rspec
+        run: bundle exec rspec
