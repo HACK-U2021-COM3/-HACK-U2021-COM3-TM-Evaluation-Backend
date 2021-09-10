@@ -5,6 +5,7 @@ jobs:
   linters_and_tests:
     name: LintersAndTests
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -25,7 +26,13 @@ jobs:
       - name: Bundle install
         run: |
           bundle config path vendor/bundle
-          bundle install  
+          bundle install
+    steps:
+      - name: Create dot env file
+      - shell: bash
+        run: |
+          touch .env
+          echo "FOO=${{ secrets.FOO }}" >> .env  
           
       - name: Run linters
         run: |
