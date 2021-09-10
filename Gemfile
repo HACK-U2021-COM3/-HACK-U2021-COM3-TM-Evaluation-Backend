@@ -21,12 +21,13 @@ gem 'puma', '~> 5.0'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors'
+gem 'rack-cors', '1.1.1'
 gem 'httpclient', '2.8.3'
 
 gem 'dotenv-rails', '2.7.6'
 
 gem 'google-id-token', '1.4.2'
+
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
@@ -36,6 +37,12 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+
+  gem 'rspec-rails', '~> 5.0.0'
+
+  gem 'spring-commands-rspec'
+
+  gem "factory_bot_rails"
 end
 
 group :development do
